@@ -2,9 +2,23 @@ import json
 import random
 import os
 
+# List of possible encodings to try
+encodings = ['utf-8', 'iso-8859-9', 'windows-1254']  # Add more if needed
+
 # Kütüphaneler ve değişkenler
-with open('sorular.json', 'r', encoding='utf-8') as f:
-    sorular = json.load(f)
+sorular = None
+for encoding in encodings:
+    try:
+        with open('sorular.json', 'r', encoding=encoding) as f:
+            sorular = json.load(f)
+        break  # Break the loop if successful
+    except UnicodeDecodeError:
+        continue  # Try the next encoding
+
+if sorular is None:
+    print("Belirtilen dosya herhangi bir kod çözümlemesi ile açılamadı.")
+    exit()
+
 p = 0
 t = 0
 
